@@ -10,13 +10,13 @@ using namespace Eigen;
 double polyeval(Eigen::VectorXd coeffs, double x) {
   double result = 0.0;
   for (int i = 0; i < coeffs.size(); i++) {
+    // ax^0 + bx + cx^2 + dx^3 + ex^4 ...
     result += coeffs[i] * pow(x, i);
   }
   return result;
 }
 
-// Fit a polynomial.
-// Adapted from
+// Fit a polynomial. Adapted from:
 // https://github.com/JuliaMath/Polynomials.jl/blob/master/src/Polynomials.jl#L676-L716
 Eigen::VectorXd polyfit(Eigen::VectorXd xvals, Eigen::VectorXd yvals,
                         int order) {
@@ -47,33 +47,10 @@ int main() {
   // y waypoint coordinates
   yvals << 5.17, -2.25, -15.306, -29.46, -42.85, -57.6116;
 
-  // TODO: use `polyfit` to fit a third order polynomial to the (x, y)
-  // coordinates.
-
+  // 3rd order polynomial
+  VectorXd coeffs = polyfit(xvals, yvals, 3);
   for (double x = 0; x <= 20; x += 1.0) {
-    // TODO: use `polyeval` to evaluate the x values.
+    // evaluate the x values.
+    std::cout << polyeval(coeffs, x) << std::endl;
   }
-
-  // Expected output
-  // -0.905562
-  // -0.226606
-  // 0.447594
-  // 1.11706
-  // 1.7818
-  // 2.44185
-  // 3.09723
-  // 3.74794
-  // 4.39402
-  // 5.03548
-  // 5.67235
-  // 6.30463
-  // 6.93236
-  // 7.55555
-  // 8.17423
-  // 8.7884
-  // 9.3981
-  // 10.0033
-  // 10.6041
-  // 11.2005
-  // 11.7925
 }
